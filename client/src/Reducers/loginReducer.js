@@ -1,4 +1,4 @@
-import { LOGIN_USER } from "../../Actions/types"
+import { LOGIN_USER } from "../Actions/types"
 
 const initialState = {
     user_info: null
