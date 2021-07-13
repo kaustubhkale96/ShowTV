@@ -34,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         fontSize: '3.125rem',
+        fontWeight: 'bold',
+        margin: '25px'
     },
 }))
 export default function Header() {
@@ -48,7 +50,7 @@ export default function Header() {
             </AppBar>
             <div className={classes.container}>
                 <h1 className={classes.title}>Unlimited movies,<br />TV shows and more.</h1>
-                <h2>Watch anywhere. Cancel anytime.</h2>
+                <h4>Watch anywhere. Cancel anytime.</h4>
             </div>
         </div>
     )

@@ -6,7 +6,7 @@ import { registerUser } from '../../apis/registerUser'
 import { Avatar, Grid, Paper, TextField, Typography, Button, Divider, AppBar, Toolbar } from '@material-ui/core'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
-
+import image from '../../assets/bg.png'
 
 export default function Register() {
     const [username, setUsername] = useState(null)
@@ -43,12 +43,10 @@ export default function Register() {
         marginTop: '10rem',
         padding: '20px 20px',
         width: 350,
-        opacity: '85%',
-
-
+        opacity: '90%',
     }
     const avatarStyle = {
-        backgroundColor: '#ADD8E6'
+        backgroundColor: '#2596be'
     }
     const header = { marginTop: 0 }
     const button = { marginBottom: '10px' }
@@ -59,45 +57,52 @@ export default function Register() {
     const appbar = { background: 'none', }
     const logowarp = { width: '80%', margin: '0 auto', borderBottom: '2px solid white' }
     const home = { color: '#fff' }
+    const root = { backgroundImage: `url(${image})`, height: '100vh', backgroundSize: 'cover' }
+    const body = { background: 'rgba(0, 0, 0, 0.6)', height: '100vh' }
+    const divider = { margin: '5px' }
     return (
         <React.Fragment>
-            <AppBar style={appbar}>
-                <Toolbar style={logowarp}>
-                    <h1 style={logo}>SHOW<span style={colortext}>TV</span></h1>
-                    <Button style={home} variant="contained" color="secondary" component={Link} to={'/'}>Home</Button>
-                </Toolbar>
-            </AppBar>
-            <Grid container align='center' justifyContent='center'>
-                <Paper elevation={20} style={paperStyle}>
-                    <Grid >
-                        <form onSubmit={handleSubmit(submitData)}>
-                            <div >
-                                <Avatar style={avatarStyle}><AccountCircleIcon /></Avatar>
-                                <h2 style={header}>Register Here</h2>
-                                <Divider />
-                                <Typography style={para}>Please fill this form to create an account !</Typography>
-                                <TextField id="outlined-basic" label="Username" variant="outlined" fullWidth required {...register('username', { required: true })} onChangeCapture={handleInputChange} type="text" name="username" />
-                                <p >{errors.username && "Username is required"}</p>
-                                <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth required {...register('email', { required: true })} onChangeCapture={handleInputChange} type="email" name="email" />
-                                <p >{errors.email && "Email is required"}</p>
-                                <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth required {...register('password', { required: true })} onChangeCapture={handleInputChange} type="password" name="password" />
-                                <p >{errors.password && "Password is required"}</p>
-                                <Button type="submit" variant='contained' color="primary" fullWidth style={button} >Create Account<span style={buttonIcon}><ExitToAppRoundedIcon /></span></Button>
-                                <div >
-                                    By signing up, you agree to the
-                                    <a href="/" > Terms of Service </a>
-                                    and
-                                    <a href="/" >Privacy Policy</a>
-                                </div>
-                                <Divider />
-                                <div >
-                                    <p>Already have an account?<span><Link to="/" >Login</Link>.</span></p>
-                                </div>
-                            </div>
-                        </form>
+            <div style={root}>
+                <div style={body}>
+                    <AppBar style={appbar}>
+                        <Toolbar style={logowarp}>
+                            <h1 style={logo}>SHOW<span style={colortext}>TV</span></h1>
+                            <Button style={home} variant="contained" color="secondary" component={Link} to={'/'}>Home</Button>
+                        </Toolbar>
+                    </AppBar>
+                    <Grid container align='center' justifyContent='center'>
+                        <Paper elevation={20} style={paperStyle}>
+                            <Grid >
+                                <form onSubmit={handleSubmit(submitData)}>
+                                    <div >
+                                        <Avatar style={avatarStyle}><AccountCircleIcon /></Avatar>
+                                        <h2 style={header}>Register Here</h2>
+                                        <Divider />
+                                        <Typography style={para}>Please fill this form to create an account !</Typography>
+                                        <TextField id="outlined-basic" label="Username" variant="outlined" fullWidth required {...register('username', { required: true })} onChangeCapture={handleInputChange} type="text" name="username" />
+                                        <p >{errors.username && "Username is required"}</p>
+                                        <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth required {...register('email', { required: true })} onChangeCapture={handleInputChange} type="email" name="email" />
+                                        <p >{errors.email && "Email is required"}</p>
+                                        <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth required {...register('password', { required: true })} onChangeCapture={handleInputChange} type="password" name="password" />
+                                        <p >{errors.password && "Password is required"}</p>
+                                        <Button type="submit" variant='contained' color="primary" fullWidth style={button} >Create Account<span style={buttonIcon}><ExitToAppRoundedIcon /></span></Button>
+                                        <div >
+                                            By signing up, you agree to the
+                                            <a href="/" > Terms of Service </a>
+                                            and
+                                            <a href="/" > Privacy Policy</a>
+                                        </div>
+                                        <Divider style={divider} />
+                                        <div >
+                                            <p>Already have an account?<span><Link to="/" >Login</Link>.</span></p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </Grid>
+                        </Paper>
                     </Grid>
-                </Paper>
-            </Grid>
+                </div>
+            </div>
         </React.Fragment>
     )
 }

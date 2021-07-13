@@ -6,15 +6,16 @@ import App from './App';
 import { Provider } from 'react-redux';
 import store from './store';
 import { ToastProvider } from 'react-toast-notifications';
+import 'bootstrap/dist/css/bootstrap.min.css';
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <Router>
-        <ToastProvider>
+    <ToastProvider>
+      <Provider store={store}>
+        <Router>
           <App />
-        </ToastProvider>
-      </Router>
-    </Provider>
+        </Router>
+      </Provider>
+    </ToastProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

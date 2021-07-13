@@ -3,12 +3,13 @@ import axios from 'axios'
 import GoogleLogin from 'react-google-login'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { loginUser } from '../../apis/loginUser'
 import { useToasts } from 'react-toast-notifications'
 import { makeStyles, Button, TextField, Divider } from '@material-ui/core'
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { GoogleOutlined, FacebookFilled } from '@ant-design/icons'
+
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -16,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
         margin: '0 auto',
         width: '100%',
         backgroundColor: '#0F9D58',
-        color: '#fff'
+        color: '#fff',
+        hoverable: 'none'
     },
     google: {
         display: 'flex',
@@ -24,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
     },
     orhead: {
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: '5px'
     }
 }));
 const stylesGoogle = {
@@ -43,7 +46,11 @@ const stylesGoogle = {
     color: '#fff'
 }
 const googleIcon = {
-    marginRight: '1rem'
+    display: 'flex',
+    marginRight: '8px',
+    padding: '1px',
+    marginTop: '2px',
+    fontSize: '18px',
 }
 const stylesFacebook = {
     display: 'flex',
@@ -61,10 +68,16 @@ const stylesFacebook = {
     color: '#fff'
 }
 const facebookIcon = {
-    marginRight: '1rem'
+    display: 'flex',
+    marginRight: '8px',
+    padding: '1px',
+    marginTop: '2px',
+    fontSize: '18px',
 }
 
 export default function Login() {
+
+    const history = useHistory();
     const classes = useStyles();
     const [username, setUsername] = useState(null)
     const [password, setPassword] = useState(null)
@@ -82,13 +95,22 @@ export default function Login() {
         try {
             const data = await loginUser(username, password)
             if (data.status === 200) {
+                if (data.data.roles === 'user') {
+                    console.log('user login', data.data.roles)
+                    history.push('/dashboard')
+                }
+                else if (data.data.roles === 'admin') {
+                    console.log('admin login', data.data.roles)
+                    history.push('/admin_dashboard')
+                }
                 addToast('Login Success!', { appearance: "success", autoDismiss: true })
-                console.log('Login success...', data)
             }
         }
         catch (e) {
-            console.log('User not found...', e)
             addToast('Something went wrong!', { appearance: 'error', autoDismiss: true })
+            setTimeout(() => {
+                window.location.reload('/')
+            }, 2000)
         }
     }
 
@@ -101,7 +123,7 @@ export default function Login() {
             data: { tokenId: response.tokenId }
         }).then(response => {
             addToast('Google Login Success!', { appearance: "success", autoDismiss: true })
-            console.log("Google login success:", response);
+            history.push('/dashboard')
         })
     }
     const responseFailureGoogle = (response) => { console.log(response) }
@@ -114,7 +136,7 @@ export default function Login() {
             data: { accessToken: response.accessToken, userID: response.userID }
         }).then(response => {
             addToast('Facebook Login Success!', { appearance: "success", autoDismiss: true })
-            console.log("Facebook login success: ", response);
+            history.push('/dashboard')
         })
     }
 
@@ -124,15 +146,15 @@ export default function Login() {
             <div className="login">
                 <form className="login_form" onSubmit={handleSubmit(submitData)}>
                     <div>
-                        <TextField id="outlined-basic" label="Username" variant="filled" type="text" name="username" fullWidth required {...register('username', { required: true })} onChangeCapture={handleInputChange} />
+                        <TextField label="Username" variant="filled" type="text" name="username" fullWidth required {...register('username', { required: true })} onChangeCapture={handleInputChange} />
                         <p>{errors.username && "Username required"}</p>
-                        <TextField id="outlined-basic" label="Password" variant="filled" type="password" name="password" fullWidth required {...register('password', { required: true })} onChangeCapture={handleInputChange} />
+                        <TextField label="Password" variant="filled" type="password" name="password" fullWidth required {...register('password', { required: true })} onChangeCapture={handleInputChange} />
                         <p>{errors.password && "Password required"}</p>
                         <Button type="submit" variant="contained" className={classes.button} endIcon={<LockOpenIcon>send</LockOpenIcon>}>Login</Button>
                     </div>
                     <div><p className={classes.orhead}>OR</p>
                         <div >
-                            <p>New to SHOWTV?<span><Link to="/register" >Register here</Link>.</span></p>
+                            <p>New to SHOWTV? <span><Link to="/register" >Register Now</Link>.</span></p>
                         </div>
                         <Divider /></div>
                     <div>
