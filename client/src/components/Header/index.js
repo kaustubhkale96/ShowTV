@@ -2,7 +2,9 @@ import React from 'react'
 import { makeStyles } from '@material-ui/styles';
 import { AppBar, Toolbar } from '@material-ui/core';
 import FormDialog from '../Dialog/logindailog';
-import Login from '../Login'
+import Login from '../Login';
+import { VideoCameraFilled } from '@ant-design/icons';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,11 +17,13 @@ const useStyles = makeStyles((theme) => ({
         background: 'none',
     },
     appbarWrap: {
-        width: '80%',
+        width: '92%',
         margin: '0 auto',
         borderBottom: '2px solid white'
     },
     logo: {
+        display: 'flex',
+        alignItems: 'center',
         color: '#fff',
         width: '6.75rem',
         height: '2rem',
@@ -38,13 +42,14 @@ const useStyles = makeStyles((theme) => ({
         margin: '25px'
     },
 }))
+const icon = { marginLeft: '8px', color: '#FFDF00' }
 export default function Header() {
     const classes = useStyles();
     return (
         <div className={classes.root}>
             <AppBar className={classes.appbar} elevation={0}>
                 <Toolbar className={classes.appbarWrap}>
-                    <h1 className={classes.logo}>SHOW<span className={classes.colorText}>TV</span></h1>
+                    <h1 className={classes.logo}>SHOW<span className={classes.colorText}>TV</span><VideoCameraFilled style={icon} /></h1>
                     <FormDialog title="LOGIN" ><Login /></FormDialog>
                 </Toolbar>
             </AppBar>

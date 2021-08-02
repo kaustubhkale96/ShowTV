@@ -18,7 +18,9 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         backgroundColor: '#0F9D58',
         color: '#fff',
-        hoverable: 'none'
+        "&$button:hover": {
+            backgroundColor: '#49bb7b',
+        },
     },
     google: {
         display: 'flex',
@@ -100,7 +102,6 @@ export default function Login() {
                     history.push('/dashboard')
                 }
                 else if (data.data.roles === 'admin') {
-                    console.log('admin login', data.data.roles)
                     history.push('/admin_dashboard')
                 }
                 addToast('Login Success!', { appearance: "success", autoDismiss: true })
@@ -150,7 +151,7 @@ export default function Login() {
                         <p>{errors.username && "Username required"}</p>
                         <TextField label="Password" variant="filled" type="password" name="password" fullWidth required {...register('password', { required: true })} onChangeCapture={handleInputChange} />
                         <p>{errors.password && "Password required"}</p>
-                        <Button type="submit" variant="contained" className={classes.button} endIcon={<LockOpenIcon>send</LockOpenIcon>}>Login</Button>
+                        <Button variant="contained" type="submit" className={classes.button} endIcon={<LockOpenIcon>send</LockOpenIcon>}>Login</Button>
                     </div>
                     <div><p className={classes.orhead}>OR</p>
                         <div >

@@ -9,13 +9,13 @@ import { ToastProvider } from 'react-toast-notifications';
 import 'bootstrap/dist/css/bootstrap.min.css';
 ReactDOM.render(
   <React.StrictMode>
-    <ToastProvider>
-      <Provider store={store}>
-        <Router>
+    <Provider store={store}>
+      <Router>
+        <ToastProvider >
           <App />
-        </Router>
-      </Provider>
-    </ToastProvider>
+        </ToastProvider>
+      </Router>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

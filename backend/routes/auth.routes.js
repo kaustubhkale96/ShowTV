@@ -3,6 +3,7 @@ const signUpController = require("../controllers/signupController")
 const signInController = require("../controllers/signinController");
 const { googlelogin } = require("../controllers/googleLoginController");
 const { facebooklogin } = require("../controllers/facebookloginController");
+
 module.exports = app => {
     app.use((req, res, next) => {
         res.header(
@@ -24,4 +25,5 @@ module.exports = app => {
     app.post("/api/auth/googlelogin", googlelogin);
 
     app.post("/api/auth/facebooklogin", facebooklogin);
+
 };

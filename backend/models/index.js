@@ -9,6 +9,8 @@ db.mongoose = mongoose;
 
 db.user = require("./user.model");
 db.role = require("./role.model");
+db.videos = require("./videos.model");
+db.category = require("./category.videos.model");
 db.url = dbConfig.url;
 
 db.ROLES = ["user", "admin"];
