@@ -8,11 +8,5 @@ const schema = mongoose.Schema({
     category: String,
 });
 
-schema.method("toJSON", function () {
-    const { _v, _id, ...object } = this.object();
-    object.id = _id;
-    return object;
-});
-
 const Videos = mongoose.model("Videos", schema);
 module.exports = Videos;

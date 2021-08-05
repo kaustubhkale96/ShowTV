@@ -41,16 +41,16 @@ router.post('/upload', (req, res) => {
     });
 });
 
-router.get('/get/all', (req, res) => {
-    cloudinary.search.expression('folder:ShowTV')
-        .execute()
-        .then((res) => {
-            console.log('/api/thumbnail-res', res);
-            res.resources;
+router.get('/get', (req, res) => {
+    Videos.find()
+        .then((result) => {
+            console.log('getVideo', result);
+            res.json({ success: true, result });
         })
         .catch((err) => {
-            console.log('/api/thumbnail-catch', err);
-        })
+            console.log('getVideo_catch=', err);
+            res.json({ success: false, message: err });
+        });
 });
 
 module.exports = router;
