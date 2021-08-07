@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 0
     }
 }));
-const appbar = { background: "rgba(0,0,0,0.6)", opacity: '95%' };
+const appbar = { background: "rgba(0,0,0,0.6)", opacity: '95%', zIndex: '0' };
 const logo = {
     display: "flex",
     flexGrow: 1,
@@ -109,10 +109,6 @@ export default function PersistentDrawerLeft() {
             <CssBaseline />
             <AppBar
                 style={appbar}
-                position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open
-                })}
             >
                 <Toolbar>
                     <IconButton
@@ -141,7 +137,7 @@ export default function PersistentDrawerLeft() {
             >
                 <div className={classes.drawerHeader}>
                     <Typography style={admin} variant="h4">
-                        <IconButton onClick={handleDrawerClose}>Hello Admin !</IconButton>
+                        <IconButton onClick={handleDrawerClose}>Hello</IconButton>
                     </Typography>
                 </div>
                 <Divider />

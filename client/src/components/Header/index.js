@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
     appbar: {
         background: 'none',
+        zIndex: '0'
     },
     appbarWrap: {
         width: '92%',
