@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 0
     }
 }));
-const appbar = { background: "rgba(0,0,0,0.6)", opacity: '95%', zIndex: '0' };
+const appbar = { background: "rgba(0,0,0,0.6)", opacity: '95%', zIndex: '1' };
 const logo = {
     display: "flex",
     flexGrow: 1,
