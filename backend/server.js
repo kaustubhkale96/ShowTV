@@ -28,6 +28,7 @@ init()
 
 require("./routes/auth.routes")(app);
 app.use("/api/video", require("./routes/videos.routes"));
+app.use("/api/comment", require("./routes/comment.routes"));
 
 
 app.get("/", (res) => {

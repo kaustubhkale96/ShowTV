@@ -3,9 +3,9 @@ let data = null
 export const loginUser = async (username, password) => {
     await axios.post(`http://localhost:5000/api/auth/signin`, { username, password })
         .then(res => {
-            console.log(res);
+            console.log('login', res);
             data = res
-            sessionStorage.setItem('user_data', res)
+            sessionStorage.setItem('user_data', JSON.stringify(res.data))
             sessionStorage.setItem('username', res.data.username)
         })
         .catch(err => {

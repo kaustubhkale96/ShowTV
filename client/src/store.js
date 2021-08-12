@@ -3,10 +3,12 @@ import loginReducer from "./Reducers/loginReducer";
 import videoReducer from './Reducers/videoReducer'
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from "redux-thunk";
+import commentReducer from "./Reducers/commentReducer";
 
 const allReducers = combineReducers({
     user: loginReducer,
     video: videoReducer,
+    comment: commentReducer,
 })
 
 const store = createStore(

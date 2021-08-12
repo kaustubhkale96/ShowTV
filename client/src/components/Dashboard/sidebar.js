@@ -93,6 +93,8 @@ const logout = { color: "red", border: "1px solid " };
 const admin = { display: "flex", alignItems: "center", marginRight: "35px" };
 
 export default function PersistentDrawerLeft() {
+
+    const user = sessionStorage.getItem('username')
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 
@@ -137,7 +139,7 @@ export default function PersistentDrawerLeft() {
             >
                 <div className={classes.drawerHeader}>
                     <Typography style={admin} variant="h4">
-                        <IconButton onClick={handleDrawerClose}>Hello</IconButton>
+                        <IconButton onClick={handleDrawerClose}><Typography>Hello {user}</Typography></IconButton>
                     </Typography>
                 </div>
                 <Divider />

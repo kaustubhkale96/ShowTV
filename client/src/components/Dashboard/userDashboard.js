@@ -3,9 +3,10 @@ import PersistentDrawerLeft from './sidebar'
 import { Image } from 'cloudinary-react';
 import { get_video } from '../../Actions/videos.actions';
 import { connect } from 'react-redux';
-import { Container, Divider, Paper } from '@material-ui/core';
+import { Container, Divider, Paper, Typography } from '@material-ui/core';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+
 
 const root = { display: 'flex', flexDirection: 'column', background: 'linear-gradient(135deg, #C0C0C0, #000000)', backgroundSize: 'cover', height: 'auto', zIndex: -1, backgroundAttachment: 'fixed' }
 const body = { display: 'flex', flexWrap: 'wrap', marginTop: '80px' }
@@ -33,11 +34,11 @@ function UserDashboard(props) {
         props.get_video();
     }, [])
 
-    const handleClick = (videoId, title, description) => {
-        props.history.push('/video/play', { video_id: videoId, title: title, description: description })
+    const handleClick = (video_id, title, description, _id) => {
+        props.history.push('/video/play', { video_id: video_id, title: title, description: description, object: _id });
     }
 
-
+    console.log(props.user)
 
     return (
         <div style={root} fixed>
@@ -51,7 +52,7 @@ function UserDashboard(props) {
                         <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
                             {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
                                 <div key={index} >
-                                    <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description)}>
+                                    <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
                                         <div >
                                             <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
                                             <div style={videotitle}>
@@ -116,6 +117,6 @@ function UserDashboard(props) {
         </div>
     )
 }
-const mapStateToProps = (state) => ({ video: state.video })
+const mapStateToProps = (state) => ({ video: state.video, user: state.user })
 
 export default connect(mapStateToProps, { get_video })(UserDashboard)

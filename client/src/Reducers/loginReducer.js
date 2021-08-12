@@ -1,7 +1,7 @@
 import { LOGIN_USER } from "../Actions/types"
 
 const initialState = {
-    user_info: null
+    user_info: JSON.parse(sessionStorage.getItem('user_data')) || null,
 }
 
 const loginReducer = (state = initialState, action) => {

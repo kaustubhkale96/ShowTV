@@ -9,6 +9,9 @@ import { useToasts } from 'react-toast-notifications'
 import { makeStyles, Button, TextField, Divider } from '@material-ui/core'
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { GoogleOutlined, FacebookFilled } from '@ant-design/icons'
+import { setLoginUser } from '../../Actions/loginUserAction'
+
+import { connect, useDispatch } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -93,12 +96,13 @@ export default function Login() {
         if (name === 'password') { setPassword(target.value) }
     }
 
+    const dispatch = useDispatch();
     const submitData = async () => {
         try {
             const data = await loginUser(username, password)
             if (data.status === 200) {
+                setLoginUser(dispatch, data)
                 if (data.data.roles === 'user') {
-                    console.log('user login', data.data.roles)
                     history.push('/dashboard')
                 }
                 else if (data.data.roles === 'admin') {
@@ -166,6 +170,7 @@ export default function Login() {
                                 <button style={stylesGoogle} onClick={renderProps.onClick} disabled={renderProps.disabled}><span style={googleIcon}><GoogleOutlined /></span>Google Login</button>
                             )}
                             buttontext="Login"
+                            cookiePolicy={"single_host_origin"}
                             onSuccess={responseSuccessGoogle}
                             onFailure={responseFailureGoogle}>
                         </GoogleLogin>
