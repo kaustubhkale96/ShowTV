@@ -12,7 +12,7 @@ const button = { display: 'flex', justifyContent: 'flex-end' }
 function Comment(props) {
     useEffect(() => {
         console.log('useeffect', props)
-        props.get_comment();
+        props.get_comment({ videoId: props.videoId });
     }, [])
     const [comment, setComment] = useState('')
     const user = props.user.user_info.id
@@ -32,7 +32,6 @@ function Comment(props) {
         props.add_comment({ comment, user, videoId })
     }
 
-    const commentTxt = props.comment.comments;
     return (
         <div>
             <form style={commentform} onSubmit={submitData}>
@@ -47,7 +46,11 @@ function Comment(props) {
                 </div>
             </form>
             <div>
-                <Typography>{commentTxt}</Typography>
+                {props.comment.comments.length > 0 && props.comment.comments.map((item, index) => (
+                    <div key={index}>
+                        <Typography>{item.comment}</Typography>
+                    </div>
+                ))}
             </div>
         </div>
     )

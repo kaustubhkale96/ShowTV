@@ -12,7 +12,7 @@ const commentReducer = (state = initialState, action) => {
         case ADD_COMMENT:
             return { ...state, comments: [...state.comments, action.comment], loading: false };
         case GET_COMMENT:
-            return { ...state, comments: [...action.comment], loading: false };
+            return { comments: [...action.comment], loading: false };
         default:
             return state;
     }

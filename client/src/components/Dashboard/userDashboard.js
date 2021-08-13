@@ -38,7 +38,7 @@ function UserDashboard(props) {
         props.history.push('/video/play', { video_id: video_id, title: title, description: description, object: _id });
     }
 
-    console.log(props.user)
+    console.log(props)
 
     return (
         <div style={root} fixed>

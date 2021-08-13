@@ -10,7 +10,7 @@ export const add_comment = (data) => (dispatch) => {
             if (res.data.success) {
                 dispatch({
                     type: ADD_COMMENT,
-                    comment: res.data,
+                    comment: res.data.comment,
                     message: '',
                 });
             }
@@ -26,22 +26,29 @@ export const add_comment = (data) => (dispatch) => {
             console.log('add_comment action=>', err)
         })
 }
-export const get_comment = () => (dispatch, getState) => {
+export const get_comment = (data) => (dispatch) => {
     dispatch({ type: LOADING });
-    axios.get('/api/comment/view')
+    axios.post('/api/comment/view', data)
         .then((res) => {
-            console.log('get_comment action res=', res.data);
+            console.log('get_comment action res=', res);
             if (res.data.success) {
+                const m = res.data.message;
+                console.log('karan inside success - ', typeof m, m);
                 console.log("res success=", res.data);
-                dispatch({
-                    type: GET_COMMENT,
-                    success: true,
-                    comment: res.data.result,
-                    message: '',
-                });
+                try {
+                    dispatch({
+                        type: GET_COMMENT,
+                        success: true,
+                        comment: [...res.data.message],
+                        message: ''
+                    });
+                } catch (e) {
+                    console.log('karan action excep - ', e);
+                }
                 console.log('video=', res.data)
             }
             else {
+                console.log('karan inside failure');
                 dispatch({
                     type: GET_COMMENT,
                     success: false,
