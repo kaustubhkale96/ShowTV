@@ -10,7 +10,7 @@ export const add_comment = (data) => (dispatch) => {
             if (res.data.success) {
                 dispatch({
                     type: ADD_COMMENT,
-                    comment: res.data.comment,
+                    comment: res.data.message,
                     message: '',
                 });
             }
@@ -32,8 +32,6 @@ export const get_comment = (data) => (dispatch) => {
         .then((res) => {
             console.log('get_comment action res=', res);
             if (res.data.success) {
-                const m = res.data.message;
-                console.log('karan inside success - ', typeof m, m);
                 console.log("res success=", res.data);
                 try {
                     dispatch({
@@ -43,12 +41,11 @@ export const get_comment = (data) => (dispatch) => {
                         message: ''
                     });
                 } catch (e) {
-                    console.log('karan action excep - ', e);
+                    console.log(e);
                 }
                 console.log('video=', res.data)
             }
             else {
-                console.log('karan inside failure');
                 dispatch({
                     type: GET_COMMENT,
                     success: false,

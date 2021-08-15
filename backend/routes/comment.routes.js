@@ -13,7 +13,6 @@ router.post('/add', (req, res) => {
 });
 
 router.post('/view', (req, res) => {
-    console.log('karan - data', req.body.videoId);
     Comment.find({ videoId: req.body.videoId })
         .then((comment) => {
             res.status(200).json({ success: true, message: comment })

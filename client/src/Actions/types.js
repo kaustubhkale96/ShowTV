@@ -5,3 +5,5 @@ export const ADD_VIDEO = 'ADD_VIDEO';
 export const ALL_VIDEO = 'ALL_VIDEO';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const GET_COMMENT = 'GET_COMMENT';
+export const LIKE_VIDEO = 'LIKE_VIDEO';
+export const DISLIKE_VIDEO = 'DISLIKE_VIDEO';

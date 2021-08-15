@@ -55,7 +55,7 @@ export default function Register() {
     const buttonIcon = { marginLeft: '5px', fontSize: '5px' }
     const logo = { display: 'flex', alignItems: 'center', color: '#fff', width: '6.75rem', height: '2rem', flexGrow: 1, }
     const colortext = { color: '#FFDF00' }
-    const appbar = { background: 'none', }
+    const appbar = { background: 'none', zIndex: 0 }
     const logowarp = { width: '92%', margin: '0 auto', borderBottom: '2px solid white' }
     const home = { color: '#fff', marginBottom: '5px' }
     const root = { backgroundImage: `url(${image})`, height: '100vh', backgroundSize: 'cover' }

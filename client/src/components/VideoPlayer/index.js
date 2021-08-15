@@ -21,7 +21,6 @@ function VideoPlayer(props) {
     const description = props.location.state.description
 
     const [showMore, setShowMore] = useState(false);
-    const [commentList, setCommentList] = useState([]);
 
     const getDes = () => {
         if (description.length <= 250) return description;
@@ -60,7 +59,6 @@ function VideoPlayer(props) {
                             <div>
                                 <Comment videoId={props.location.state.object} />
                             </div>
-                            <Divider style={divider} />
                         </div>
                     </Paper>
                 </Container>
