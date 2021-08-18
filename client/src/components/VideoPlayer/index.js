@@ -3,16 +3,21 @@ import React, { useState } from 'react';
 import ReactPlayer from 'react-player/youtube';
 import { connect } from 'react-redux';
 import { Button, Container, Divider, Paper, Typography } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Comment from '../Comments';
+import { Link } from 'react-router-dom';
+import LikesDislikes from './LikesDislikes/LikesDislikes';
 
 const root = { display: 'flex', flexDirection: 'column', background: 'linear-gradient(135deg, #C0C0C0, #202020)', backgroundSize: 'cover', height: 'auto', zIndex: -1, }
 const player = { border: '1px solid lightgrey', margin: 'auto' }
-const body = { display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', marginTop: '80px', }
+const body = { display: 'flex', flexWrap: 'wrap', alignItems: 'center', marginTop: '80px', }
 const paper = { background: 'none', border: 'none', marginTop: '20px' }
 const des = { background: 'none', margin: '20px', textOverflow: 'ellipsis', overflow: 'hidden' }
-const videotitle = { margin: '5px', }
-const divider = { marginTop: '10px', background: '#696969', width: '100%', }
-
+const videotitle = { margin: '5px', display: 'flex', flexGrow: 1, }
+const divider = { marginTop: '10px', width: '100%', }
+const likes = {}
+const header = { display: 'flex', justifyContent: 'flex-start', alignItems: 'center', width: 'inherit', margin: '5px', marginLeft: '-50px' }
 
 function VideoPlayer(props) {
     console.log('props', props)
@@ -47,10 +52,17 @@ function VideoPlayer(props) {
             <PersistentDrawerLeft />
             <div >
                 <Container style={body}>
+                    <div style={header}>
+                        <IconButton component={Link} to={'/dashboard'} ><ArrowBackIcon /></IconButton>
+                        <h2 style={videotitle}>{title}</h2>
+                        <div style={likes}>
+                            <LikesDislikes videoId={props.location.state.object} />
+                        </div>
+                    </div>
                     <ReactPlayer style={player} width='90vw' height='75vh' controls={true} url={`http://www.youtube.com/watch?v=${video_ID}`} />
                     <Paper style={paper} elevation={0}>
                         <div>
-                            <h2 style={videotitle}>{title}</h2>
+                            <h3>Description</h3>
                             <Divider style={divider} />
                             <div style={des}>
                                 <Typography>{getDes()}</Typography>

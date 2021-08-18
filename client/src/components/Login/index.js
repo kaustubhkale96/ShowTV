@@ -11,7 +11,7 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { GoogleOutlined, FacebookFilled } from '@ant-design/icons'
 import { setLoginUser } from '../../Actions/loginUserAction'
 
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({

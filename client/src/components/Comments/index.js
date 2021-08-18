@@ -17,36 +17,33 @@ const btn = { border: '1px solid', borderRadius: '8px' }
 function Comment(props) {
     useEffect(() => {
         console.log('useeffect', props)
-        setComment('')
         props.get_comment({ videoId: props.videoId });
     }, [])
     const [comment, setComment] = useState('')
     const username = props.user.user_info.username
     const user = props.user.user_info.id
     const videoId = props.videoId
-    console.log('comment props', props)
 
     const handleChange = (e) => {
+        e.preventDefault();
         const target = e.target
         const name = target.name
         if (name === 'comment') { setComment(target.value) }
-        console.log(target.value)
     }
 
     const submitData = (e) => {
         e.preventDefault();
-        setComment('')
         props.add_comment({ comment, user, videoId, username })
+        setComment('')
     }
-    console.log('user=>', props.comment.comments)
 
     return (
         <div>
             <form style={commentform} onSubmit={submitData}>
-                <h5>Comments</h5>
+                <h5><span>{props.comment.comments.length}</span> Comments</h5>
                 <div style={input}>
                     <Avatar style={avatar}></Avatar>
-                    <TextField style={text} required id='standard' label="Add Comment" onChange={handleChange} name="comment" />
+                    <TextField style={text} required id='standard' label="Add Comment" value={comment} onChange={handleChange} name="comment" />
                 </div>
                 <div style={button}>
                     <Button type="submit" style={btn}>Comment</Button>

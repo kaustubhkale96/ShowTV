@@ -12,6 +12,8 @@ db.role = require("./role.model");
 db.videos = require("./videos.model");
 db.comments = require("./comment.model");
 db.category = require("./category.videos.model");
+db.like = require("./likes.model");
+db.dislike = require("./dislike.model");
 db.url = dbConfig.url;
 
 db.ROLES = ["user", "admin"];
