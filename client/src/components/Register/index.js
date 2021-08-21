@@ -41,7 +41,7 @@ export default function Register() {
         }
     }
     const paperStyle = {
-        marginTop: '10rem',
+        marginTop: '8rem',
         padding: '20px 20px',
         width: 350,
         opacity: '90%',

@@ -6,12 +6,12 @@ import { useForm } from 'react-hook-form'
 import { Link, useHistory } from 'react-router-dom'
 import { loginUser } from '../../apis/loginUser'
 import { useToasts } from 'react-toast-notifications'
-import { makeStyles, Button, TextField, Divider } from '@material-ui/core'
+import { makeStyles, Button, TextField, Divider, Grid, Container } from '@material-ui/core'
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { GoogleOutlined, FacebookFilled } from '@ant-design/icons'
-import { setLoginUser } from '../../Actions/loginUserAction'
+import { setFacebookLogin, setGoogleLogin, setLoginUser } from '../../Actions/loginUserAction'
 
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -80,8 +80,7 @@ const facebookIcon = {
     fontSize: '18px',
 }
 
-export default function Login() {
-
+function Login() {
     const history = useHistory();
     const classes = useStyles();
     const [username, setUsername] = useState(null)
@@ -115,7 +114,7 @@ export default function Login() {
             addToast('Something went wrong!', { appearance: 'error', autoDismiss: true })
             setTimeout(() => {
                 window.location.reload('/')
-            }, 2000)
+            }, 1000)
         }
     }
 
@@ -125,11 +124,19 @@ export default function Login() {
         axios({
             method: 'POST',
             url: 'http://localhost:5000/api/auth/googlelogin',
-            data: { tokenId: response.tokenId }
-        }).then(response => {
-            addToast('Google Login Success!', { appearance: "success", autoDismiss: true })
-            history.push('/dashboard')
+            data: { tokenId: response.tokenId, name: response.profileObj.name, email: response.profileObj.email }
+
         })
+            .then(response => {
+                console.log(response.data)
+                setGoogleLogin(dispatch, response)
+                console.log('dispatch', response)
+                sessionStorage.setItem('username', (response.data.username))
+                // sessionStorage.setItem('id', (response.data.id))
+                addToast('Google Login Success!', { appearance: "success", autoDismiss: true })
+                history.push('/dashboard')
+            });
+
     }
     const responseFailureGoogle = (response) => { console.log(response) }
 
@@ -140,6 +147,9 @@ export default function Login() {
             url: 'http://localhost:5000/api/auth/facebooklogin',
             data: { accessToken: response.accessToken, userID: response.userID }
         }).then(response => {
+            console.log(response.data.username)
+            setFacebookLogin(dispatch, response)
+            sessionStorage.setItem('username', (response.data.username))
             addToast('Facebook Login Success!', { appearance: "success", autoDismiss: true })
             history.push('/dashboard')
         })
@@ -148,50 +158,50 @@ export default function Login() {
     return (
         <React.Fragment>
 
-            <div className="login">
-                <form className="login_form" onSubmit={handleSubmit(submitData)}>
-                    <div>
-                        <TextField label="Username" variant="filled" type="text" name="username" fullWidth required {...register('username', { required: true })} onChangeCapture={handleInputChange} />
-                        <p>{errors.username && "Username required"}</p>
-                        <TextField label="Password" variant="filled" type="password" name="password" fullWidth required {...register('password', { required: true })} onChangeCapture={handleInputChange} />
-                        <p>{errors.password && "Password required"}</p>
-                        <Button variant="contained" type="submit" className={classes.button} endIcon={<LockOpenIcon>send</LockOpenIcon>}>Login</Button>
+            <form className="login_form" onSubmit={handleSubmit(submitData)}>
+                <div>
+                    <TextField label="Username" variant="filled" type="text" name="username" fullWidth required {...register('username', { required: true })} onChangeCapture={handleInputChange} />
+                    <p>{errors.username && "Username required"}</p>
+                    <TextField label="Password" variant="filled" type="password" name="password" fullWidth required {...register('password', { required: true })} onChangeCapture={handleInputChange} />
+                    <p>{errors.password && "Password required"}</p>
+                    <Button variant="contained" type="submit" className={classes.button} endIcon={<LockOpenIcon>send</LockOpenIcon>}>Login</Button>
+                </div>
+                <div><p className={classes.orhead}>OR</p>
+                    <div >
+                        <p>New to SHOWTV? <span><Link to="/register" >Register Now</Link>.</span></p>
                     </div>
-                    <div><p className={classes.orhead}>OR</p>
-                        <div >
-                            <p>New to SHOWTV? <span><Link to="/register" >Register Now</Link>.</span></p>
-                        </div>
-                        <Divider /></div>
-                    <div>
+                    <Divider /></div>
+                <div>
 
-                        <GoogleLogin
-                            clientId="1073248472355-dv8f7054642rmmqoshu3rt491639b4jb.apps.googleusercontent.com"
-                            render={renderProps => (
-                                <button style={stylesGoogle} onClick={renderProps.onClick} disabled={renderProps.disabled}><span style={googleIcon}><GoogleOutlined /></span>Google Login</button>
-                            )}
-                            buttontext="Login"
-                            cookiePolicy={"single_host_origin"}
-                            onSuccess={responseSuccessGoogle}
-                            onFailure={responseFailureGoogle}>
-                        </GoogleLogin>
-                    </div>
-                    <div>
-                        <FacebookLogin
-                            appId="234716694949174"
-                            render={renderProps => (
-                                <button style={stylesFacebook} onClick={renderProps.onClick}><span style={facebookIcon}><FacebookFilled /></span>Facebook Login</button>
-                            )}
-                            autoLoad={false}
-                            fields="name,email"
-                            callback={responseFacebook}>
-                        </FacebookLogin>
-                    </div>
+                    <GoogleLogin
+                        clientId="1073248472355-dv8f7054642rmmqoshu3rt491639b4jb.apps.googleusercontent.com"
+                        render={renderProps => (
+                            <button style={stylesGoogle} onClick={renderProps.onClick} disabled={renderProps.disabled}><span style={googleIcon}><GoogleOutlined /></span>Google Login</button>
+                        )}
+                        buttontext="Login"
+                        cookiePolicy={"single_host_origin"}
+                        onSuccess={responseSuccessGoogle}
+                        onFailure={responseFailureGoogle}>
+                    </GoogleLogin>
+                </div>
+                <div>
+                    <FacebookLogin
+                        appId="234716694949174"
+                        render={renderProps => (
+                            <button style={stylesFacebook} onClick={renderProps.onClick}><span style={facebookIcon}><FacebookFilled /></span>Facebook Login</button>
+                        )}
+                        autoLoad={false}
+                        fields="name,email"
+                        callback={responseFacebook}>
+                    </FacebookLogin>
+                </div>
+            </form>
 
-                </form>
-
-            </div>
         </React.Fragment>
     )
 }
+const MapStatetoProps = (state) => ({ data: state.data, login: state.login, loading: state.loading })
+const MapDispatchtoProps = { loginUser: loginUser }
+export default connect(MapStatetoProps, MapDispatchtoProps)(Login)
 
 

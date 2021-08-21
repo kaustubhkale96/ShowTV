@@ -1,94 +1,73 @@
-import { VideoCameraFilled } from '@ant-design/icons';
-import { AppBar, Button, Container, makeStyles, Toolbar, Paper } from '@material-ui/core';
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-import UploadDailog from '../Dialog/uploadDailog';
+import { Container, Divider, makeStyles, Paper, Typography } from '@material-ui/core';
+import React, { useEffect } from 'react'
 import { Image } from 'cloudinary-react';
 import { get_video } from '../../Actions/videos.actions';
 import { connect } from 'react-redux';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import AdminAppbar from './admin.appbar';
 
-const useStyles = makeStyles((theme) => ({
-    appbar: {
-        background: "rgba(0,0,0,0.6)",
-        opacity: '95%',
-        zIndex: "0"
+
+const root = { display: 'flex', flexDirection: 'column', background: 'linear-gradient(135deg, #C0C0C0, #000000)', backgroundSize: 'cover', height: 'auto', zIndex: -1, backgroundAttachment: 'fixed' }
+const body = { display: 'flex', flexWrap: 'wrap', marginTop: '80px' }
+const paper = { margin: '8px', height: 280, width: 200, textAlign: 'center', textOverflow: 'ellipsis', overflow: 'hidden', cursor: 'pointer', backgroundColor: 'lightgrey' }
+const divider = { background: '#696969', margin: '8px', height: '1px' }
+const videotitle = { margin: 'auto' }
+const title = { marginTop: '1rem', marginLeft: '20px' }
+
+const responsive = {
+    desktop: {
+        breakpoint: { max: 3000, min: 1024 },
+        items: 6,
     },
-    appbarWrap: {
-        width: '90%',
-        margin: '0 auto',
+    tablet: {
+        breakpoint: { max: 1024, min: 464 },
+        items: 3
     },
-    logo: {
-        display: 'flex',
-        alignItems: 'center',
-        color: '#fff',
-        fontWeight: 'bold',
-        flexGrow: 1,
-    },
-    colorText: {
-        color: '#FFDF00'
+    mobile: {
+        breakpoint: { max: 464, min: 0 },
+        items: 1,
+        partialVisibilityGutter: 110,
     }
-}));
-const root = { display: 'flex', justifyContent: 'center', alignItems: 'center', }
-const icon = { marginLeft: '8px', marginBottom: '4px', color: '#FFDF00', fontSize: '38px', }
-const logout = { padding: '8px', margin: '8px', color: "red", border: "1px solid ", fontWeight: 'bold' }
-const logoName = { borderBottom: '2px solid white' }
-const paper = { margin: '8px', height: 300, width: 200, alignItems: 'center', textOverflow: 'ellipsis', overflow: 'hidden', cursor: 'pointer' }
-const body = { marginTop: '100px' }
+};
 
+const user = sessionStorage.getItem('username');
 const AdminDashboard = (props) => {
-    const classes = useStyles();
-
-    const responsive = {
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 5,
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 3
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1
-        }
-    };
-
     useEffect(() => {
         props.get_video();
     }, [])
 
+    const handleClick = (video_id, title, description, _id) => {
+        props.history.push('/video/play', { video_id: video_id, title: title, description: description, object: _id });
+    }
+
     return (
-        <React.Fragment >
-            <div style={root}>
-                <AppBar className={classes.appbar} elevation={0}>
-                    <Toolbar className={classes.appbarWrap}>
-                        <div className={classes.logo}>
-                            <h3 style={logoName}>SHOW<span className={classes.colorText}>TV</span></h3>
-                            <VideoCameraFilled style={icon} />
-                        </div>
-                        <div>
-                            <Button ><UploadDailog /></Button>
-                            <Button style={logout} component={Link} to={'/logout'}>Logout</Button>
-                        </div>
-                    </Toolbar>
-                </AppBar>
+        <div style={root}>
+            <React.Fragment >
+                <div>
+                    <AdminAppbar />
+                </div>
                 <div style={body}>
-                    <Container fixed maxWidth='xl'>
-                        <h3>All</h3>
-                        <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
+                    <Container maxWidth>
+                        <Typography>Welcome, {user} !</Typography>
+                        <h3 style={title}>All</h3>
+                        <Carousel responsive={responsive} partialVisible={true} removeArrowOnDeviceType='mobile' swipeable={true} draggable={true} ssr={true}>
                             {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
                                 <div key={index} >
-                                    <Paper elevation={6} style={paper}>
-                                        <div>
+                                    <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
+                                        <div >
                                             <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
-                                            <h6>{item.title}</h6>
+                                            <div style={videotitle}>
+                                                <h6>{item.title}</h6>
+                                            </div>
                                         </div>
                                     </Paper>
                                 </div>
                             ))}
                         </Carousel>
+                        <div>
+                            <Divider style={divider} />
+                        </div>
                         <h3>Action</h3>
                         <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
                             {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
@@ -118,8 +97,8 @@ const AdminDashboard = (props) => {
                     </Container>
                 </div>
 
-            </div>
-        </React.Fragment>
+            </React.Fragment>
+        </div>
     )
 }
 const mapStateToProps = (state) => ({

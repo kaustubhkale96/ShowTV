@@ -14,6 +14,8 @@ const use = { fontSize: '13px', fontWeight: 'fontWeightLight' }
 const cmnt = { fontSize: '18px' }
 const btn = { border: '1px solid', borderRadius: '8px' }
 
+
+
 function Comment(props) {
     useEffect(() => {
         console.log('useeffect', props)
@@ -21,6 +23,8 @@ function Comment(props) {
     }, [])
     const [comment, setComment] = useState('')
     const username = props.user.user_info.username
+    const googleUser = sessionStorage.getItem('username')
+    console.log(googleUser)
     const user = props.user.user_info.id
     const videoId = props.videoId
 
@@ -33,7 +37,7 @@ function Comment(props) {
 
     const submitData = (e) => {
         e.preventDefault();
-        props.add_comment({ comment, user, videoId, username })
+        props.add_comment({ comment, user, videoId, username, googleUser })
         setComment('')
     }
 
@@ -67,5 +71,5 @@ function Comment(props) {
         </div>
     )
 }
-const MapStatetoProps = (state) => ({ comment: state.comment, user: state.user, video: state.video })
+const MapStatetoProps = (state) => ({ comment: state.comment, user: state.user, video: state.video, googleUser: state.user })
 export default connect(MapStatetoProps, { add_comment, get_comment })(Comment)

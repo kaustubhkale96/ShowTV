@@ -3,11 +3,13 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { Container } from '@material-ui/core';
 
 const dailogBox = {
-    minWidth: '350px',
+    minWidth: '300px',
     boxShadow: 3
 }
+const content = { margin: 'auto', padding: 'auto' }
 export default function FormDialog({ children, title }) {
     const [open, setOpen] = React.useState(false);
 
@@ -25,7 +27,7 @@ export default function FormDialog({ children, title }) {
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <div style={dailogBox}>
                     <DialogTitle id="form-dialog-title">{title}</DialogTitle>
-                    <DialogContent>
+                    <DialogContent style={content}>
                         {children}
                     </DialogContent>
                 </div>

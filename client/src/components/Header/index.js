@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import FormDialog from '../Dialog/logindailog';
 import Login from '../Login';
 import { VideoCameraFilled } from '@ant-design/icons';
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '80vh',
+        height: '25vh',
     },
     appbar: {
         background: 'none',
@@ -26,8 +26,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         color: '#fff',
-        width: '6.75rem',
-        height: '2rem',
+        fontSize: '2rem',
         flexGrow: 1,
     },
     colorText: {
@@ -50,14 +49,11 @@ export default function Header() {
         <div className={classes.root}>
             <AppBar className={classes.appbar} elevation={0}>
                 <Toolbar className={classes.appbarWrap}>
-                    <h1 className={classes.logo}>SHOW<span className={classes.colorText}>TV</span><VideoCameraFilled style={icon} /></h1>
+                    <Typography className={classes.logo}>SHOW<span className={classes.colorText}>TV</span><VideoCameraFilled style={icon} /></Typography>
                     <FormDialog title="LOGIN" ><Login /></FormDialog>
                 </Toolbar>
             </AppBar>
-            <div className={classes.container}>
-                <h1 className={classes.title}>Unlimited movies,<br />TV shows and more.</h1>
-                <h4>Watch anywhere. Cancel anytime.</h4>
-            </div>
+
         </div>
     )
 }

@@ -1,4 +1,6 @@
 export const LOGIN_USER = 'LOGIN_USER';
+export const GOOGLE_LOGIN = 'GOOGLE_LOGIN';
+export const FACEBOOK_LOGIN = 'FACEBOOK_LOGIN';
 export const SIGNUP_USER = 'SIGNUP_USER';
 export const LOADING = 'LOADING';
 export const ADD_VIDEO = 'ADD_VIDEO';
