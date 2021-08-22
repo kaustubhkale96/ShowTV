@@ -111,10 +111,10 @@ function Login() {
             }
         }
         catch (e) {
-            addToast('Something went wrong!', { appearance: 'error', autoDismiss: true })
             setTimeout(() => {
                 window.location.reload('/')
             }, 1000)
+            addToast('Something went wrong!', { appearance: 'error', autoDismiss: true })
         }
     }
 
@@ -131,6 +131,7 @@ function Login() {
                 console.log(response.data)
                 setGoogleLogin(dispatch, response)
                 console.log('dispatch', response)
+                sessionStorage.setItem('user_data', JSON.stringify(response.data))
                 sessionStorage.setItem('username', (response.data.username))
                 // sessionStorage.setItem('id', (response.data.id))
                 addToast('Google Login Success!', { appearance: "success", autoDismiss: true })
@@ -149,6 +150,7 @@ function Login() {
         }).then(response => {
             console.log(response.data.username)
             setFacebookLogin(dispatch, response)
+            sessionStorage.setItem('user_data', JSON.stringify(response.data))
             sessionStorage.setItem('username', (response.data.username))
             addToast('Facebook Login Success!', { appearance: "success", autoDismiss: true })
             history.push('/dashboard')

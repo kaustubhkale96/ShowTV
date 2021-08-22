@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { Button, Container, Divider, Paper, Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Comment from '../Comments';
-import { Link } from 'react-router-dom';
+import Comment from './Comments/index';
+import { Link, useHistory } from 'react-router-dom';
 import LikesDislikes from './LikesDislikes/LikesDislikes';
 
 const root = { display: 'flex', flexDirection: 'column', background: 'linear-gradient(135deg, #C0C0C0, #202020)', backgroundSize: 'cover', height: 'auto', zIndex: -1, backgroundAttachment: 'fixed' }
@@ -20,6 +20,8 @@ const divider = { marginTop: '10px', width: '100%', }
 const header = { display: 'flex', justifyContent: 'flex-start', alignItems: 'center', width: 'inherit', margin: '5px', marginLeft: '-50px' }
 
 function VideoPlayer(props) {
+    const history = useHistory();
+
     console.log('props', props)
     const video_ID = props.location.state.video_id
     const title = props.location.state.title
@@ -46,6 +48,14 @@ function VideoPlayer(props) {
             )
         }
     }
+    const handleClick = () => {
+        console.log('role', props.user.user_info.roles);
+        if (props.user.user_info.roles === "admin") {
+            history.push('/admin_dashboard')
+        } else {
+            history.push('/dashboard')
+        }
+    }
 
     return (
         <div style={root}>
@@ -53,7 +63,7 @@ function VideoPlayer(props) {
             <div >
                 <Container style={body}>
                     <div style={header}>
-                        <IconButton component={Link} to={'/dashboard'} ><ArrowBackIcon /></IconButton>
+                        <IconButton onClick={handleClick} ><ArrowBackIcon /></IconButton>
                         <h2 style={videotitle}>{title}</h2>
                         <div>
                             <LikesDislikes videoId={props.location.state.object} />

@@ -31,10 +31,10 @@ const responsive = {
     }
 };
 
-const user = sessionStorage.getItem('username')
 function UserDashboard(props) {
     console.log('props', props)
-
+    console.log('user', props.user.user_info.username)
+    const user = props.user.user_info.username
     useEffect(() => {
         props.get_video();
     }, [])

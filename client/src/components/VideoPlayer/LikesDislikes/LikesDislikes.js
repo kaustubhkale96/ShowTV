@@ -7,11 +7,14 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Typography } from '@material-ui/core';
+import { useToasts } from 'react-toast-notifications';
 
 const buttons = { display: 'flex', justifyContent: 'flex-end', }
 const btns = { display: 'flex', alignItems: 'center', }
 
 function LikesDislikes(props) {
+
+    const { addToast } = useToasts();
 
     const [like, setLike] = useState(0)
     const [dislike, setDislike] = useState(0)
@@ -67,7 +70,7 @@ function LikesDislikes(props) {
 
                         setLike(like + 1)
                         setLikeAction('liked')
-
+                        addToast("Video Liked !", { appearance: 'success', autoDismiss: true })
                         if (dislikeAction !== null) {
                             setDislike(dislike - 1)
                             setDislikeAction(null)
@@ -76,6 +79,7 @@ function LikesDislikes(props) {
 
                     } else {
                         alert('Failed to like Video')
+                        addToast("Failed to like Video", { appearance: 'error', autoDismiss: true })
                     }
                 })
         } else {
@@ -85,9 +89,10 @@ function LikesDislikes(props) {
 
                         setLike(like - 1)
                         setLikeAction(null)
-
+                        addToast("Like Removed !", { appearance: 'success', autoDismiss: true })
                     } else {
                         alert('Failed to unlike Video')
+                        addToast("Failed to unlike Video", { appearance: 'error', autoDismiss: true })
                     }
                 })
         }
@@ -101,7 +106,7 @@ function LikesDislikes(props) {
 
                         setDislike(dislike + 1)
                         setDislikeAction('disliked')
-
+                        addToast("Video Disliked !", { appearance: 'success', autoDismiss: true })
                         if (likeAction !== null) {
                             setLike(like - 1)
                             setLikeAction(null)
@@ -110,6 +115,7 @@ function LikesDislikes(props) {
 
                     } else {
                         alert("Failed to dislike Video")
+                        addToast("Failed to dislike Video", { appearance: 'error', autoDismiss: true })
                     }
                 })
         } else {
@@ -120,9 +126,11 @@ function LikesDislikes(props) {
 
                         setDislike(dislike - 1)
                         setDislikeAction(null)
+                        addToast("Dislike Removed !", { appearance: 'success', autoDismiss: true })
 
                     } else {
                         alert('Failed to undislike Video')
+                        addToast("Failed to undislike Video", { appearance: 'error', autoDismiss: true })
                     }
                 })
         }

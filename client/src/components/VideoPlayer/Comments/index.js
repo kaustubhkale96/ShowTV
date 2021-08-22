@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Avatar, Button, Paper, TextField, Typography } from '@material-ui/core'
-import { add_comment, get_comment } from '../../Actions/comments.action'
-import { connect } from 'react-redux'
+import { add_comment, get_comment } from '../../../Actions/comments.action'
+import { connect } from 'react-redux';
+import { useToasts } from 'react-toast-notifications';
 
 const commentform = { margin: '1rem auto' }
 const text = { width: '90%', borderRadius: '10px' }
@@ -17,6 +18,9 @@ const btn = { border: '1px solid', borderRadius: '8px' }
 
 
 function Comment(props) {
+
+    const { addToast } = useToasts()
+
     useEffect(() => {
         console.log('useeffect', props)
         props.get_comment({ videoId: props.videoId });
@@ -39,6 +43,11 @@ function Comment(props) {
         e.preventDefault();
         props.add_comment({ comment, user, videoId, username, googleUser })
         setComment('')
+        try {
+            addToast('Comment Added!', { appearance: "success", autoDismiss: true })
+        } catch (e) {
+            addToast('Comment Failed!', { appearance: "error", autoDismiss: true })
+        }
     }
 
     return (
