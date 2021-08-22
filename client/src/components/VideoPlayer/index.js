@@ -1,13 +1,14 @@
 import UserAppbar from '../Dashboard/user.appbar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player/youtube';
 import { connect } from 'react-redux';
 import { Button, Container, Divider, Paper, Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Comment from './Comments/index';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import LikesDislikes from './LikesDislikes/LikesDislikes';
+import Loader from '../Dashboard/loader';
 
 const root = { display: 'flex', flexDirection: 'column', background: 'linear-gradient(135deg, #C0C0C0, #202020)', backgroundSize: 'cover', height: 'auto', zIndex: -1, backgroundAttachment: 'fixed' }
 const playerWarp = { postion: 'relative'/* Player ratio: 100 / (1600 / 900) */ }
@@ -28,6 +29,14 @@ function VideoPlayer(props) {
     const description = props.location.state.description
 
     const [showMore, setShowMore] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000)
+    }, [])
 
     const getDes = () => {
         if (description.length <= 250) return description;
@@ -56,36 +65,38 @@ function VideoPlayer(props) {
             history.push('/dashboard')
         }
     }
-
+    console.log(props.location.state)
     return (
         <div style={root}>
             <UserAppbar />
             <div >
-                <Container style={body}>
-                    <div style={header}>
-                        <IconButton onClick={handleClick} ><ArrowBackIcon /></IconButton>
-                        <h2 style={videotitle}>{title}</h2>
-                        <div>
-                            <LikesDislikes videoId={props.location.state.object} />
-                        </div>
-                    </div>
-                    <div style={playerWarp}>
-                        <ReactPlayer style={player} width='75vw' height='65vh' playing controls={true} url={`http://www.youtube.com/watch?v=${video_ID}`} />
-                    </div>
-                    <Paper style={paper} elevation={0}>
-                        <div>
-                            <h3>Description</h3>
-                            <Divider style={divider} />
-                            <div style={des}>
-                                <Typography>{getDes()}</Typography>
-                            </div>
-                            <Divider style={divider} />
+                {props.location.state !== null && loading === false ? (
+                    <Container style={body}>
+                        <div style={header}>
+                            <IconButton onClick={handleClick} ><ArrowBackIcon /></IconButton>
+                            <h2 style={videotitle}>{title}</h2>
                             <div>
-                                <Comment videoId={props.location.state.object} />
+                                <LikesDislikes videoId={props.location.state.object} />
                             </div>
                         </div>
-                    </Paper>
-                </Container>
+                        <div style={playerWarp}>
+                            <ReactPlayer style={player} width='75vw' height='70vh' controls={true} url={`http://www.youtube.com/watch?v=${video_ID}`} />
+                        </div>
+                        <Paper style={paper} elevation={0}>
+                            <div>
+                                <h3>Description</h3>
+                                <Divider style={divider} />
+                                <div style={des}>
+                                    <Typography>{getDes()}</Typography>
+                                </div>
+                                <Divider style={divider} />
+                                <div>
+                                    <Comment videoId={props.location.state.object} />
+                                </div>
+                            </div>
+                        </Paper>
+                    </Container>
+                ) : <Loader />}
             </div>
         </div>
     )

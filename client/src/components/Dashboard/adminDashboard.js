@@ -1,11 +1,12 @@
 import { Container, Divider, makeStyles, Paper, Typography } from '@material-ui/core';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image } from 'cloudinary-react';
 import { get_video } from '../../Actions/videos.actions';
 import { connect } from 'react-redux';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import AdminAppbar from './admin.appbar';
+import Loader from './loader';
 
 
 const root = { display: 'flex', flexDirection: 'column', background: 'linear-gradient(135deg, #C0C0C0, #000000)', backgroundSize: 'cover', height: 'auto', zIndex: -1, backgroundAttachment: 'fixed' }
@@ -33,8 +34,15 @@ const responsive = {
 
 const user = sessionStorage.getItem('username');
 const AdminDashboard = (props) => {
+
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         props.get_video();
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 1500)
     }, [])
 
     const handleClick = (video_id, title, description, _id) => {
@@ -48,53 +56,55 @@ const AdminDashboard = (props) => {
                     <AdminAppbar />
                 </div>
                 <div style={body}>
-                    <Container maxWidth>
-                        <Typography>Welcome, {user} !</Typography>
-                        <h3 style={title}>All</h3>
-                        <Carousel responsive={responsive} partialVisible={true} removeArrowOnDeviceType='mobile' swipeable={true} draggable={true} ssr={true}>
-                            {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
-                                <div key={index} >
-                                    <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
-                                        <div >
-                                            <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
-                                            <div style={videotitle}>
+                    {props.video.vidoes !== null && loading === false ? (
+                        <Container maxWidth>
+                            <Typography>Welcome, {user} !</Typography>
+                            <h3 style={title}>All</h3>
+                            <Carousel responsive={responsive} partialVisible={true} removeArrowOnDeviceType='mobile' swipeable={true} draggable={true} ssr={true}>
+                                {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
+                                    <div key={index} >
+                                        <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
+                                            <div >
+                                                <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
+                                                <div style={videotitle}>
+                                                    <h6>{item.title}</h6>
+                                                </div>
+                                            </div>
+                                        </Paper>
+                                    </div>
+                                ))}
+                            </Carousel>
+                            <div>
+                                <Divider style={divider} />
+                            </div>
+                            <h3>Action</h3>
+                            <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
+                                {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
+                                    <div key={index} >
+                                        <Paper elevation={6} style={paper}>
+                                            <div>
+                                                <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
                                                 <h6>{item.title}</h6>
                                             </div>
-                                        </div>
-                                    </Paper>
-                                </div>
-                            ))}
-                        </Carousel>
-                        <div>
-                            <Divider style={divider} />
-                        </div>
-                        <h3>Action</h3>
-                        <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
-                            {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
-                                <div key={index} >
-                                    <Paper elevation={6} style={paper}>
-                                        <div>
-                                            <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
-                                            <h6>{item.title}</h6>
-                                        </div>
-                                    </Paper>
-                                </div>
-                            ))}
-                        </Carousel>
-                        <h3>Action</h3>
-                        <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
-                            {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
-                                <div key={index} >
-                                    <Paper elevation={6} style={paper}>
-                                        <div>
-                                            <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
-                                            <h6>{item.title}</h6>
-                                        </div>
-                                    </Paper>
-                                </div>
-                            ))}
-                        </Carousel>
-                    </Container>
+                                        </Paper>
+                                    </div>
+                                ))}
+                            </Carousel>
+                            <h3>Action</h3>
+                            <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
+                                {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
+                                    <div key={index} >
+                                        <Paper elevation={6} style={paper}>
+                                            <div>
+                                                <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
+                                                <h6>{item.title}</h6>
+                                            </div>
+                                        </Paper>
+                                    </div>
+                                ))}
+                            </Carousel>
+                        </Container>
+                    ) : <Loader />}
                 </div>
 
             </React.Fragment>
