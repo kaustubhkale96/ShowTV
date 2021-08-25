@@ -88,7 +88,7 @@ function UserDashboard(props) {
                             <Carousel responsive={responsive} partialVisible={true} removeArrowOnDeviceType='mobile' swipeable={true} draggable={true} ssr={true}>
                                 {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Action').map((item, index) => (
                                     <div key={index} >
-                                        <Paper elevation={6} style={paper}>
+                                        <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
                                             <div>
                                                 <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
                                                 <h6>{item.title}</h6>
@@ -104,7 +104,7 @@ function UserDashboard(props) {
                             <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
                                 {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Comedy').map((item, index) => (
                                     <div key={index} >
-                                        <Paper elevation={6} style={paper}>
+                                        <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
                                             <div>
                                                 <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
                                                 <h6>{item.title}</h6>
@@ -120,7 +120,7 @@ function UserDashboard(props) {
                             <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
                                 {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Drama').map((item, index) => (
                                     <div key={index} >
-                                        <Paper elevation={6} style={paper}>
+                                        <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
                                             <div>
                                                 <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
                                                 <h6>{item.title}</h6>
@@ -136,7 +136,7 @@ function UserDashboard(props) {
                             <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
                                 {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Horror').map((item, index) => (
                                     <div key={index} >
-                                        <Paper elevation={6} style={paper}>
+                                        <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
                                             <div>
                                                 <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
                                                 <h6>{item.title}</h6>
@@ -152,7 +152,7 @@ function UserDashboard(props) {
                             <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
                                 {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Thriller').map((item, index) => (
                                     <div key={index} >
-                                        <Paper elevation={6} style={paper}>
+                                        <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
                                             <div>
                                                 <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
                                                 <h6>{item.title}</h6>

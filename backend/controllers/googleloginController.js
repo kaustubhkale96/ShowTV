@@ -2,11 +2,10 @@ const db = require('../models');
 const config = require('../config/auth.config');
 const { OAuth2Client } = require('google-auth-library')
 
-const client = new OAuth2Client("1073248472355-dv8f7054642rmmqoshu3rt491639b4jb.apps.googleusercontent.com")
+const client = new OAuth2Client(`${process.env.OAUTH_CLIENT}`)
 const User = db.user;
 
 var jwt = require('jsonwebtoken');
-var bcrypt = require('bcrypt');
 
 exports.googlelogin = (req, response) => {
     const { tokenId } = req.body;

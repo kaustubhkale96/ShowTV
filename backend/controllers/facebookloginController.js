@@ -3,7 +3,6 @@ const config = require('../config/auth.config');
 const User = db.user;
 
 var jwt = require('jsonwebtoken');
-var bcrypt = require('bcrypt');
 const { default: fetch } = require('node-fetch');
 
 exports.facebooklogin = (req, response) => {
