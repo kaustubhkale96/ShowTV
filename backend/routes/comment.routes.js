@@ -16,11 +16,9 @@ router.post('/view', (req, res) => {
     Comment.find({ videoId: req.body.videoId })
         .then((comment) => {
             res.status(200).json({ success: true, message: comment })
-            console.log('comments', comment)
         })
         .catch((err) => {
             res.json({ success: false, message: err });
-            console.log('error', err)
         })
 
 });

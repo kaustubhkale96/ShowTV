@@ -30,11 +30,9 @@ router.post('/get', (req, res) => {
     Like.find({ videoId: req.body.videoId })
         .then((like) => {
             res.status(200).json({ success: true, message: like })
-            console.log('likes', like)
         })
         .catch((err) => {
             res.json({ success: false, message: err });
-            console.log('error', err)
         })
 
 });

@@ -32,11 +32,9 @@ router.post('/get', (req, res) => {
     Dislike.find({ videoId: req.body.videoId })
         .then((dislike) => {
             res.status(200).json({ success: true, message: dislike })
-            console.log('dislikes', dislike)
         })
         .catch((err) => {
             res.json({ success: false, message: err });
-            console.log('error', err)
         })
 
 });
