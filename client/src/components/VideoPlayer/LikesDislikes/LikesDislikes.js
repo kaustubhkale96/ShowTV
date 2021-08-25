@@ -20,8 +20,6 @@ function LikesDislikes(props) {
     const [dislike, setDislike] = useState(0)
     const [likeAction, setLikeAction] = useState(null)
     const [dislikeAction, setDislikeAction] = useState(null)
-    const googleUSer = sessionStorage.getItem('id')
-    console.log(googleUSer)
     const user = props.user.user_info.id
     const videoId = props.videoId
 

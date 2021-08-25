@@ -20,6 +20,7 @@ const responsive = {
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
         items: 6,
+        slidesToSlide: 3,
     },
     tablet: {
         breakpoint: { max: 1024, min: 464 },
@@ -49,6 +50,11 @@ function UserDashboard(props) {
     const handleClick = (video_id, title, description, _id) => {
         props.history.push('/video/play', { video_id: video_id, title: title, description: description, object: _id });
     }
+
+    const videoArray = props.video.videos
+    console.log(videoArray)
+    const shuffleVideo = videoArray.sort(() => Math.random() - 0.5)
+    console.log('shuffle', shuffleVideo)
 
     return (
         <div style={root} fixed>
@@ -94,9 +100,9 @@ function UserDashboard(props) {
                             <div>
                                 <Divider style={divider} />
                             </div>
-                            <h3 style={title}>Action</h3>
+                            <h3>Comedy</h3>
                             <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
-                                {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Action').map((item, index) => (
+                                {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Comedy').map((item, index) => (
                                     <div key={index} >
                                         <Paper elevation={6} style={paper}>
                                             <div>
@@ -110,9 +116,9 @@ function UserDashboard(props) {
                             <div>
                                 <Divider style={divider} />
                             </div>
-                            <h3 style={title}>Action</h3>
+                            <h3>Drama</h3>
                             <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
-                                {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Action').map((item, index) => (
+                                {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Drama').map((item, index) => (
                                     <div key={index} >
                                         <Paper elevation={6} style={paper}>
                                             <div>
@@ -123,6 +129,41 @@ function UserDashboard(props) {
                                     </div>
                                 ))}
                             </Carousel>
+                            <div>
+                                <Divider style={divider} />
+                            </div>
+                            <h3>Horror</h3>
+                            <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
+                                {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Horror').map((item, index) => (
+                                    <div key={index} >
+                                        <Paper elevation={6} style={paper}>
+                                            <div>
+                                                <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
+                                                <h6>{item.title}</h6>
+                                            </div>
+                                        </Paper>
+                                    </div>
+                                ))}
+                            </Carousel>
+                            <div>
+                                <Divider style={divider} />
+                            </div>
+                            <h3>Thriller</h3>
+                            <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
+                                {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Thriller').map((item, index) => (
+                                    <div key={index} >
+                                        <Paper elevation={6} style={paper}>
+                                            <div>
+                                                <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
+                                                <h6>{item.title}</h6>
+                                            </div>
+                                        </Paper>
+                                    </div>
+                                ))}
+                            </Carousel>
+                            <div>
+                                <Divider style={divider} />
+                            </div>
                         </Container>
                     ) : <Loader />}
                 </div>
@@ -130,6 +171,6 @@ function UserDashboard(props) {
         </div>
     )
 }
-const mapStateToProps = (state) => ({ video: state.video, user: state.user, googleUser: state.user })
+const mapStateToProps = (state) => ({ video: state.video, user: state.user })
 
 export default connect(mapStateToProps, { get_video })(UserDashboard)

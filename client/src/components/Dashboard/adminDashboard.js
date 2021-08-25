@@ -1,4 +1,4 @@
-import { Container, Divider, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Container, Divider, Paper, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import { Image } from 'cloudinary-react';
 import { get_video } from '../../Actions/videos.actions';
@@ -20,6 +20,7 @@ const responsive = {
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
         items: 6,
+        slidesToSlide: 3,
     },
     tablet: {
         breakpoint: { max: 1024, min: 464 },
@@ -49,8 +50,12 @@ const AdminDashboard = (props) => {
         props.history.push('/video/play', { video_id: video_id, title: title, description: description, object: _id });
     }
 
+    const videoArray = props.video.videos
+    console.log(videoArray)
+    const shuffleVideo = videoArray.sort(() => Math.random() - 0.5)
+    console.log('shuffle', shuffleVideo)
     return (
-        <div style={root}>
+        <div style={root} fixed>
             <React.Fragment >
                 <div>
                     <AdminAppbar />
@@ -79,9 +84,9 @@ const AdminDashboard = (props) => {
                             </div>
                             <h3>Action</h3>
                             <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
-                                {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
+                                {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Action').map((item, index) => (
                                     <div key={index} >
-                                        <Paper elevation={6} style={paper}>
+                                        <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
                                             <div>
                                                 <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
                                                 <h6>{item.title}</h6>
@@ -90,11 +95,14 @@ const AdminDashboard = (props) => {
                                     </div>
                                 ))}
                             </Carousel>
-                            <h3>Action</h3>
+                            <div>
+                                <Divider style={divider} />
+                            </div>
+                            <h3>Comedy</h3>
                             <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
-                                {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
+                                {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Comedy').map((item, index) => (
                                     <div key={index} >
-                                        <Paper elevation={6} style={paper}>
+                                        <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
                                             <div>
                                                 <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
                                                 <h6>{item.title}</h6>
@@ -103,6 +111,57 @@ const AdminDashboard = (props) => {
                                     </div>
                                 ))}
                             </Carousel>
+                            <div>
+                                <Divider style={divider} />
+                            </div>
+                            <h3>Drama</h3>
+                            <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
+                                {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Drama').map((item, index) => (
+                                    <div key={index} >
+                                        <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
+                                            <div>
+                                                <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
+                                                <h6>{item.title}</h6>
+                                            </div>
+                                        </Paper>
+                                    </div>
+                                ))}
+                            </Carousel>
+                            <div>
+                                <Divider style={divider} />
+                            </div>
+                            <h3>Horror</h3>
+                            <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
+                                {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Horror').map((item, index) => (
+                                    <div key={index} >
+                                        <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
+                                            <div>
+                                                <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
+                                                <h6>{item.title}</h6>
+                                            </div>
+                                        </Paper>
+                                    </div>
+                                ))}
+                            </Carousel>
+                            <div>
+                                <Divider style={divider} />
+                            </div>
+                            <h3>Thriller</h3>
+                            <Carousel responsive={responsive} swipeable={true} draggable={true} ssr={true}>
+                                {props.video.videos.length > 0 && props.video.videos.filter(item => item.category === 'Thriller').map((item, index) => (
+                                    <div key={index} >
+                                        <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
+                                            <div>
+                                                <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
+                                                <h6>{item.title}</h6>
+                                            </div>
+                                        </Paper>
+                                    </div>
+                                ))}
+                            </Carousel>
+                            <div>
+                                <Divider style={divider} />
+                            </div>
                         </Container>
                     ) : <Loader />}
                 </div>

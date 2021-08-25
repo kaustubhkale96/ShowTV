@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import AdminDashboard from './components/Dashboard/adminDashboard';
-import userDashboard from './components/Dashboard/userDashboard';
+import UserDashboard from './components/Dashboard/userDashboard';
 import LandingPage from './components/LandingPage';
 import Register from './components/Register';
 import Logout from './components/Logout';
@@ -14,10 +14,11 @@ function App() {
       <Switch>
         <Route exact path="/" component={LandingPage} />
         <Route exact path="/register" component={Register} />
-        <ProtectedRoute exact path="/admin_dashboard" component={AdminDashboard} />
-        <ProtectedRoute path="/dashboard" component={userDashboard} />
-        <ProtectedRoute exact path="/video/play" component={VideoPlayer} />
         <Route exact path="/logout" component={Logout} />
+        {/* ProtectedRoutes */}
+        <ProtectedRoute exact path="/admin_dashboard" component={AdminDashboard} />
+        <ProtectedRoute exact path="/dashboard" component={UserDashboard} />
+        <ProtectedRoute exact path="/video/play" component={VideoPlayer} />
         <Route component={PageNotFound} />
       </Switch>
     </React.Fragment>

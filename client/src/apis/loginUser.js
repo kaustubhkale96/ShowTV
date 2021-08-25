@@ -7,6 +7,7 @@ export const loginUser = async (username, password) => {
             data = res
             sessionStorage.setItem('user_data', JSON.stringify(res.data))
             sessionStorage.setItem('username', res.data.username)
+            sessionStorage.setItem('login_status', res.status)
         })
         .catch(err => {
             console.log(err)

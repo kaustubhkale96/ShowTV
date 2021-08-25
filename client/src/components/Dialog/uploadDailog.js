@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { add_video } from '../../Actions/videos.actions'
 import { Grid, Paper, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
 
 const dailogBox = {
     minWidth: '600px',
@@ -17,6 +18,8 @@ const form = { display: 'flex', flexDirection: 'column', width: '570px', margin:
 const Categories = ['Action', 'Comedy', 'Drama', 'Horror', 'Thriller']
 
 function UploadDailog(props) {
+
+    const { addToast } = useToasts();
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -47,6 +50,11 @@ function UploadDailog(props) {
         if (validate()) {
             console.log('video_id', video_id);
             props.add_video({ title, description, category, thumbnail, video_id });
+            setOpen(false);
+            addToast("Video Uploaded", { appearance: 'success', autoDismiss: true })
+            setTimeout(() => {
+                window.location.reload('/admin_dashboard')
+            }, 4000)
         }
     }
     const validate = () => {
@@ -106,7 +114,7 @@ function UploadDailog(props) {
                                             <Button type="submit" variant='contained' color="primary" fullWidth  >Upload</Button>
                                         </div >
                                         <div style={{ margin: '12px' }}>
-                                            <Button variant='contained' color="secondary" fullWidth component={Link} to={'/admin_dashboard'} >Cancel</Button>
+                                            <Button variant='contained' color="secondary" fullWidth onClick={handleClose} >Cancel</Button>
                                         </div>
                                     </form>
                                 </Grid>

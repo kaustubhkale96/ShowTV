@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     appbar: {
         background: "rgba(0,0,0,0.6)",
         opacity: '95%',
-        zIndex: "0"
+        zIndex: 1
     },
     appbarWrap: {
         display: "flex",
