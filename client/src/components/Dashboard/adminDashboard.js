@@ -1,4 +1,4 @@
-import { Container, Divider, Paper, Typography } from '@material-ui/core';
+import { Button, Container, Divider, Paper, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import { Image } from 'cloudinary-react';
 import { get_video } from '../../Actions/videos.actions';
@@ -7,14 +7,20 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import AdminAppbar from './admin.appbar';
 import Loader from './loader';
+import SearchBar from './searchbar';
+import EditDailog from '../Dialog/editdailog';
 
 
 const root = { display: 'flex', flexDirection: 'column', background: 'linear-gradient(135deg, #C0C0C0, #000000)', backgroundSize: 'cover', height: 'auto', zIndex: -1, backgroundAttachment: 'fixed' }
-const body = { display: 'flex', flexWrap: 'wrap', marginTop: '80px' }
+const body = { display: 'flex', flexWrap: 'wrap', marginTop: '80px', zIndex: 0 }
 const paper = { margin: '8px', height: 280, width: 200, textAlign: 'center', textOverflow: 'ellipsis', overflow: 'hidden', cursor: 'pointer', backgroundColor: 'lightgrey' }
 const divider = { background: '#696969', margin: '8px', height: '1px' }
 const videotitle = { margin: 'auto' }
 const title = { marginTop: '1rem', marginLeft: '20px' }
+const head = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '1rem' }
+const searchbar = { postion: 'relative', zIndex: 2 }
+const button = { display: 'flex', alignItems: 'center', justifyContent: 'space-around' }
+const carousel = { display: 'block', justifyContent: 'center', width: 'fit-content' }
 
 const responsive = {
     desktop: {
@@ -35,7 +41,7 @@ const responsive = {
 
 const user = sessionStorage.getItem('username');
 const AdminDashboard = (props) => {
-
+    console.log(props)
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -47,7 +53,7 @@ const AdminDashboard = (props) => {
     }, [])
 
     const handleClick = (video_id, title, description, _id) => {
-        props.history.push('/video/play', { video_id: video_id, title: title, description: description, object: _id });
+        props.history.push(`/video/play`, { video_id: video_id, title: title, description: description, object: _id });
     }
 
     const videoArray = props.video.videos
@@ -63,20 +69,31 @@ const AdminDashboard = (props) => {
                 <div style={body}>
                     {props.video.vidoes !== null && loading === false ? (
                         <Container maxWidth>
-                            <Typography>Welcome, {user} !</Typography>
+                            <div style={head}>
+                                <Typography >Welcome, {user} !</Typography>
+                                <div style={searchbar}>
+                                    <SearchBar />
+                                </div>
+                            </div>
                             <h3 style={title}>All</h3>
                             <Carousel responsive={responsive} partialVisible={true} removeArrowOnDeviceType='mobile' swipeable={true} draggable={true} ssr={true}>
                                 {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
-                                    <div key={index} >
+                                    <div key={index} style={carousel} >
                                         <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
                                             <div >
                                                 <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
                                                 <div style={videotitle}>
                                                     <h6>{item.title}</h6>
                                                 </div>
+
                                             </div>
                                         </Paper>
+                                        <div style={button}>
+                                            <EditDailog videos={props.video.videos} />
+                                            <Button>Delete</Button>
+                                        </div>
                                     </div>
+
                                 ))}
                             </Carousel>
                             <div>

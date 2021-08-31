@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { VideoCameraFilled } from '@ant-design/icons';
@@ -18,7 +17,6 @@ const logo = {
 const logoname = { borderBottom: '2px solid white' }
 const colorlogo = { color: "#FFDF00" };
 const logout = { color: "red", border: "1px solid ", margin: '8px' };
-const home = { color: "#4285F4", border: "1px solid ", margin: '8px' };
 const icon = { marginLeft: '8px', marginBottom: '4px', color: '#FFDF00', fontSize: '2rem', };
 
 export default function UserAppbar() {

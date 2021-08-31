@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LOADING, ADD_VIDEO, ALL_VIDEO } from './types'
+import { LOADING, ADD_VIDEO, ALL_VIDEO, EDIT_VIDEO } from './types'
 
 export const add_video = (data) => (dispatch, getState) => {
     console.log('add_video actions data=', data);
@@ -54,5 +54,31 @@ export const get_video = () => (dispatch, getState) => {
         })
         .catch((err) => {
             console.log('api/video/get=', err);
+        });
+}
+
+
+export const edit_video = (data) => (dispatch, getState) => {
+    console.log('edit data', data)
+    dispatch({ type: LOADING });
+    axios.put(`api/video/:id`, data)
+        .then((res) => {
+            console.log('api/video/:id=>', res);
+            if (res.data.success) {
+                dispatch({
+                    type: EDIT_VIDEO,
+                    video: res.data.video,
+                    message: "",
+                });
+            } else {
+                dispatch({
+                    type: EDIT_VIDEO,
+                    video: null,
+                    message: res.data.message,
+                });
+            }
+        })
+        .catch(err => {
+            console.log('edit actio err=>', err);
         });
 }
