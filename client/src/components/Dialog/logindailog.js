@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 const dailogBox = {
-    minWidth: '300px',
+    minWidth: 'auto',
     boxShadow: 3
 }
 const content = { margin: 'auto', padding: 'auto' }

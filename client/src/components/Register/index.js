@@ -62,6 +62,7 @@ export default function Register() {
     const body = { background: 'rgba(0, 0, 0, 0.6)', height: '100vh' }
     const divider = { margin: '5px' }
     const icon = { marginLeft: '8px', color: '#FFDF00' }
+    const content = { display: 'flex', flexDirection: 'column', alignItems: 'center' }
     return (
         <React.Fragment>
             <div style={root}>
@@ -76,18 +77,15 @@ export default function Register() {
                         <Paper elevation={20} style={paperStyle}>
                             <Grid >
                                 <form onSubmit={handleSubmit(submitData)}>
-                                    <div >
+                                    <div style={content} >
                                         <Avatar style={avatarStyle}><AccountCircleIcon /></Avatar>
                                         <h2 style={header}>Register Here</h2>
                                         <Divider />
                                         <Typography style={para}>Please fill this form to create an account !</Typography>
-                                        <TextField label="Username" variant="outlined" fullWidth required {...register('username', { required: true })} onChangeCapture={handleInputChange} type="text" name="username" />
-                                        <p >{errors.username && "Username is required"}</p>
-                                        <TextField label="Email" variant="outlined" fullWidth required {...register('email', { required: true })} onChangeCapture={handleInputChange} type="email" name="email" />
-                                        <p >{errors.email && "Email is required"}</p>
-                                        <TextField label="Password" variant="outlined" fullWidth required {...register('password', { required: true })} onChangeCapture={handleInputChange} type="password" name="password" />
-                                        <p >{errors.password && "Password is required"}</p>
-                                        <Button type="submit" variant='contained' color="primary" fullWidth style={button} >Create Account<span style={buttonIcon}><ExitToAppRoundedIcon /></span></Button>
+                                        <TextField style={{ margin: '5px' }} label="Username" variant="outlined" fullWidth  {...register('username', { required: 'Enter Your Username' })} error={Boolean(errors.username)} helperText={errors.username?.message} onChangeCapture={handleInputChange} type="text" name="username" />
+                                        <TextField style={{ margin: '5px' }} label="Email" variant="outlined" fullWidth  {...register('email', { required: 'Enter Your Email' })} error={Boolean(errors.email)} helperText={errors.email?.message} onChangeCapture={handleInputChange} type="email" name="email" />
+                                        <TextField style={{ margin: '5px' }} label="Password" variant="outlined" fullWidth  {...register('password', { required: 'Set Your Password' })} error={Boolean(errors.password)} helperText={errors.password?.message} onChangeCapture={handleInputChange} type="password" name="password" />
+                                        <Button style={{ margin: '5px' }} type="submit" variant='contained' color="primary" fullWidth style={button} >Create Account<span style={buttonIcon}><ExitToAppRoundedIcon /></span></Button>
                                         <div >
                                             By signing up, you agree to the
                                             <a href="/" > Terms of Service </a>

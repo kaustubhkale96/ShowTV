@@ -1,14 +1,15 @@
-import { Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Paper, Select, TextField } from '@material-ui/core'
+import { Button, Dialog, DialogContent, DialogTitle, } from '@material-ui/core'
 import axios from 'axios'
-import React, { useState } from 'react'
-import { useToasts } from 'react-toast-notifications'
+import React from 'react'
+import { useToasts } from 'react-toast-notifications';
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 
 
 const dailogBox = {
     minWidth: 'auto',
     boxShadow: 3
 }
-const del = { color: "red", fontWeight: 'bold', fontSize: '10px', border: "1px solid grey" }
+const del = { color: "red", fontWeight: 'bold', fontSize: '10px', }
 const paper = { display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: 'auto', margin: '8px', padding: '8px', }
 
 
@@ -45,7 +46,7 @@ function DeleteDailog(props) {
 
     return (
         <div>
-            <Button variant='outlined' style={del} onClick={handleClickOpen}>Delete</Button>
+            <Button style={del} onClick={handleClickOpen}><DeleteOutlineOutlinedIcon /></Button>
             <Dialog open={open} aria-labelledby="form-dialog-title">
                 <div style={dailogBox}>
                     <DialogTitle id="form-dialog-title">Are you sure to Delete : {title} ?</DialogTitle>

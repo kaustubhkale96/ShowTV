@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Image } from 'cloudinary-react';
 import { get_video } from '../../Actions/videos.actions';
 import { connect } from 'react-redux';
-import { Container, Divider, Paper, Typography } from '@material-ui/core';
+import { Container, Divider, IconButton, Paper, TextField, Typography } from '@material-ui/core';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import UserAppbar from './user.appbar';
 import Loader from './loader';
+import SearchIcon from '@material-ui/icons/Search';
+import CloseIcon from "@material-ui/icons/Close";
 
 
 const root = { display: 'flex', flexDirection: 'column', background: 'linear-gradient(135deg, #C0C0C0, #000000)', backgroundSize: 'cover', height: 'auto', zIndex: -1, backgroundAttachment: 'fixed' }
@@ -15,6 +17,10 @@ const paper = { margin: '8px', height: 280, width: 200, textAlign: 'center', tex
 const divider = { background: '#696969', margin: '8px', height: '1px' }
 const videotitle = { margin: 'auto' }
 const title = { marginTop: '1rem', marginLeft: '20px' }
+const head = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '1rem' }
+const searchbar = { display: 'flex', alignItems: 'center', justifyContent: 'center', width: 'auto', color: 'white', }
+const carousel = { display: 'block', justifyContent: 'center', width: 'fit-content' }
+
 
 const responsive = {
     desktop: {
@@ -39,6 +45,8 @@ function UserDashboard(props) {
     const user = props.user.user_info.username
 
     const [loading, setLoading] = useState(false);
+    const [searchData, setSearchData] = useState([]);
+    const [search, setSearchText] = useState("")
     useEffect(() => {
         props.get_video();
         setLoading(true);
@@ -46,6 +54,26 @@ function UserDashboard(props) {
             setLoading(false);
         }, 1500)
     }, [])
+
+
+    const searchVideo = (e) => {
+        const searchText = e.target.value;
+        setSearchText(searchText);
+        setSearchData([
+            ...props.video.videos.filter((item) => {
+                console.log('search result', item.title);
+                if (item.title.toLowerCase().includes(searchText.toLowerCase())) {
+                    return true;
+                }
+                return false;
+            }),
+        ]);
+    }
+
+    const clearSearch = () => {
+        setSearchData([]);
+        setSearchText("");
+    }
 
     const handleClick = (video_id, title, description, _id) => {
         props.history.push('/video/play', { video_id: video_id, title: title, description: description, object: _id });
@@ -65,11 +93,19 @@ function UserDashboard(props) {
                 <div style={body}>
                     {props.video.vidoes !== null && loading === false ? (
                         <Container maxWidth>
-                            <Typography>Welcome, {user} !</Typography>
+                            <div style={head}>
+                                <Typography >Welcome, {user} !</Typography>
+                                <div style={searchbar}>
+                                    <TextField size="small" value={search} onChange={searchVideo} type='text' placeholder=' Search' />
+                                    <IconButton type="submit" aria-label="search">
+                                        {searchData.length === 0 ? <SearchIcon /> : <CloseIcon onClick={clearSearch} />}
+                                    </IconButton>
+                                </div>
+                            </div>
                             <h3 style={title}>All</h3>
                             <Carousel responsive={responsive} partialVisible={true} removeArrowOnDeviceType='mobile' swipeable={true} draggable={true} ssr={true}>
-                                {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
-                                    <div key={index} >
+                                {searchData.length > 0 ? searchData.map((item, index) => (
+                                    <div key={index} style={carousel} >
                                         <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
                                             <div >
                                                 <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
@@ -79,7 +115,19 @@ function UserDashboard(props) {
                                             </div>
                                         </Paper>
                                     </div>
-                                ))}
+                                ))
+                                    : props.video.videos.length > 0 && props.video.videos.map((item, index) => (
+                                        <div key={index} style={carousel} >
+                                            <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
+                                                <div >
+                                                    <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
+                                                    <div style={videotitle}>
+                                                        <h6>{item.title}</h6>
+                                                    </div>
+                                                </div>
+                                            </Paper>
+                                        </div>
+                                    ))}
                             </Carousel>
                             <div>
                                 <Divider style={divider} />

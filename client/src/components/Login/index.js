@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { Link, useHistory } from 'react-router-dom'
 import { loginUser } from '../../apis/loginUser'
 import { useToasts } from 'react-toast-notifications'
-import { makeStyles, Button, TextField, Divider, Grid, Container } from '@material-ui/core'
+import { makeStyles, Button, TextField, Divider, } from '@material-ui/core'
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { GoogleOutlined, FacebookFilled } from '@ant-design/icons'
 import { setFacebookLogin, setGoogleLogin, setLoginUser } from '../../Actions/loginUserAction'
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     orhead: {
         display: 'flex',
         justifyContent: 'center',
-        marginTop: '5px'
+        margin: '5px'
     }
 }));
 const stylesGoogle = {
@@ -79,6 +79,7 @@ const facebookIcon = {
     marginTop: '2px',
     fontSize: '18px',
 }
+const input = { display: 'flex', flexDirection: 'column', alignItems: 'center', }
 
 function Login() {
     const history = useHistory();
@@ -133,7 +134,6 @@ function Login() {
                 console.log('dispatch', response)
                 sessionStorage.setItem('user_data', JSON.stringify(response.data))
                 sessionStorage.setItem('username', (response.data.username))
-                // sessionStorage.setItem('id', (response.data.id))
                 addToast('Google Login Success!', { appearance: "success", autoDismiss: true })
                 history.push('/dashboard')
             });
@@ -161,12 +161,10 @@ function Login() {
         <React.Fragment>
 
             <form className="login_form" onSubmit={handleSubmit(submitData)}>
-                <div>
-                    <TextField label="Username" variant="filled" type="text" name="username" fullWidth required {...register('username', { required: true })} onChangeCapture={handleInputChange} />
-                    <p>{errors.username && "Username required"}</p>
-                    <TextField label="Password" variant="filled" type="password" name="password" fullWidth required {...register('password', { required: true })} onChangeCapture={handleInputChange} />
-                    <p>{errors.password && "Password required"}</p>
-                    <Button variant="contained" type="submit" className={classes.button} endIcon={<LockOpenIcon>send</LockOpenIcon>}>Login</Button>
+                <div style={input} >
+                    <TextField style={{ margin: '5px' }} label="Username" variant="filled" type="text" name="username" fullWidth  {...register('username', { required: 'Username is required' })} error={Boolean(errors.username)} helperText={errors.username?.message} onChangeCapture={handleInputChange} />
+                    <TextField style={{ margin: '5px' }} label="Password" variant="filled" type="password" name="password" fullWidth  {...register('password', { required: 'Password is required' })} error={Boolean(errors.password)} helperText={errors.password?.message} onChangeCapture={handleInputChange} />
+                    <Button style={{ margin: '5px' }} variant="contained" type="submit" className={classes.button} endIcon={<LockOpenIcon>send</LockOpenIcon>}>Login</Button>
                 </div>
                 <div><p className={classes.orhead}>OR</p>
                     <div >

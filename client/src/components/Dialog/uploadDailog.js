@@ -4,12 +4,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from 'react-redux';
 import { add_video } from '../../Actions/videos.actions'
+import { useForm } from 'react-hook-form'
 import { Grid, Paper, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
 const dailogBox = {
-    minWidth: '600px',
+    minWidth: 'auto',
     boxShadow: 3
 }
 const upload = { padding: '8px', margin: '8px', color: "#19B5FE", border: "1px solid", fontWeight: 'bold' }
@@ -18,7 +18,7 @@ const form = { display: 'flex', flexDirection: 'column', width: '570px', margin:
 const Categories = ['Action', 'Comedy', 'Drama', 'Horror', 'Thriller']
 
 function UploadDailog(props) {
-
+    const { register, handleSubmit, formState: { errors } } = useForm()
     const { addToast } = useToasts();
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = useState('');
@@ -45,8 +45,7 @@ function UploadDailog(props) {
         if (name === 'video_id') { setVideoId(value) }
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const Submit = (e) => {
         if (validate()) {
             console.log('video_id', video_id);
             props.add_video({ title, description, category, thumbnail, video_id });
@@ -86,15 +85,15 @@ function UploadDailog(props) {
                         <Grid container align='center' fullWidth justifyContent='center'>
                             <Paper elevation={20} >
                                 <Grid >
-                                    <form style={form} onSubmit={handleSubmit}>
+                                    <form style={form} onSubmit={handleSubmit(Submit)}>
                                         <div style={{ margin: '12px' }} >
-                                            <TextField onChangeCapture={handleInputChange} label="Title" variant="outlined" fullWidth required type="text" name="title" />
+                                            <TextField onChangeCapture={handleInputChange} label="Title" variant="outlined" fullWidth {...register('title', { required: 'Enter Video Title' })} error={Boolean(errors.title)} helperText={errors.title?.message} type="text" name="title" />
                                         </div>
                                         <div style={{ margin: '12px' }}>
-                                            <TextField onChangeCapture={handleInputChange} label="Description" variant="outlined" fullWidth required type="text" multiline rows={4} name="description" />
+                                            <TextField onChangeCapture={handleInputChange} label="Description" variant="outlined" fullWidth {...register('description', { required: 'Enter Video Description' })} error={Boolean(errors.description)} helperText={errors.description?.message} type="text" multiline rows={4} name="description" />
                                         </div>
                                         <div style={{ margin: '12px' }}>
-                                            <FormControl variant="outlined" fullWidth required >
+                                            <FormControl variant="outlined" fullWidth {...register('category', { required: 'Select a Category' })} error={Boolean(errors.category)} helperText={errors.category?.message} >
                                                 <InputLabel id="demo-simple-select-outlined-label">Category</InputLabel>
                                                 <Select name='category' onChange={handleCategory} label="Category">
                                                     {Categories.map((item, index) => (
@@ -105,10 +104,10 @@ function UploadDailog(props) {
                                             </FormControl>
                                         </div>
                                         <div style={{ margin: '12px' }}>
-                                            <TextField onChangeCapture={handleInputChange} label="Thumbnail" variant="outlined" fullWidth required type="file" name="thumbnail" InputLabelProps={{ shrink: true, }} />
+                                            <TextField onChangeCapture={handleInputChange} label="Thumbnail" variant="outlined" fullWidth {...register('thumbnail', { required: 'Add Video Thumbnail' })} error={Boolean(errors.thumbnail)} helperText={errors.thumbnail?.message} type="file" name="thumbnail" InputLabelProps={{ shrink: true, }} />
                                         </div>
                                         <div style={{ margin: '12px' }}>
-                                            <TextField onChangeCapture={handleInputChange} label="Video ID" variant="outlined" fullWidth required type="text" name="video_id" />
+                                            <TextField onChangeCapture={handleInputChange} label="Video ID" variant="outlined" fullWidth {...register('video_id', { required: 'Add Video Id' })} error={Boolean(errors.video_id)} helperText={errors.video_id?.message} type="text" name="video_id" />
                                         </div>
                                         <div style={{ margin: '12px' }}>
                                             <Button type="submit" variant='contained' color="primary" fullWidth  >Upload</Button>

@@ -2,13 +2,14 @@ import { Button, Dialog, DialogContent, DialogTitle, FormControl, Grid, InputLab
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useToasts } from 'react-toast-notifications'
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
 
 const dailogBox = {
     minWidth: '600px',
     boxShadow: 3
 }
-const edit = { color: "#19B5FE", fontWeight: 'bold', fontSize: '10px', border: "1px solid grey" }
+const edit = { color: "#19B5FE", fontWeight: 'bold', size: 'small' }
 const form = { display: 'flex', flexDirection: 'column', width: '570px', margin: '8px', padding: '8px', }
 
 const Categories = ['Action', 'Comedy', 'Drama', 'Horror', 'Thriller']
@@ -69,7 +70,7 @@ function EditDailog(props) {
     };
     return (
         <div>
-            <Button variant='outlined' style={edit} onClick={handleClickOpen}>Edit</Button>
+            <Button style={edit} onClick={handleClickOpen}><EditOutlinedIcon /></Button>
             <Dialog open={open} aria-labelledby="form-dialog-title">
                 <div style={dailogBox}>
                     <DialogTitle id="form-dialog-title">Edit your Video</DialogTitle>
