@@ -9,6 +9,7 @@ import AdminAppbar from './admin.appbar';
 import Loader from './loader';
 import SearchBar from './searchbar';
 import EditDailog from '../Dialog/editdailog';
+import DeleteDailog from '../Dialog/deleteDialog';
 
 
 const root = { display: 'flex', flexDirection: 'column', background: 'linear-gradient(135deg, #C0C0C0, #000000)', backgroundSize: 'cover', height: 'auto', zIndex: -1, backgroundAttachment: 'fixed' }
@@ -52,6 +53,12 @@ const AdminDashboard = (props) => {
         }, 1500)
     }, [])
 
+    const handleDelete = (e) => {
+        e.preventDefault();
+        const id = props.id;
+        console.log(id)
+    }
+
     const handleClick = (video_id, title, description, _id) => {
         props.history.push(`/video/play`, { video_id: video_id, title: title, description: description, object: _id });
     }
@@ -79,19 +86,20 @@ const AdminDashboard = (props) => {
                             <Carousel responsive={responsive} partialVisible={true} removeArrowOnDeviceType='mobile' swipeable={true} draggable={true} ssr={true}>
                                 {props.video.videos.length > 0 && props.video.videos.map((item, index) => (
                                     <div key={index} style={carousel} >
-                                        <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
-                                            <div >
-                                                <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
-                                                <div style={videotitle}>
-                                                    <h6>{item.title}</h6>
+                                        <Container>
+                                            <Paper elevation={6} style={paper} onClick={() => handleClick(item.video_id, item.title, item.description, item._id)}>
+                                                <div >
+                                                    <Image cloudName='kilo' public_id={item.thumbnail} crop='scale' height={260} width={200} />
+                                                    <div style={videotitle}>
+                                                        <h6>{item.title}</h6>
+                                                    </div>
                                                 </div>
-
+                                            </Paper>
+                                            <div style={button}>
+                                                <EditDailog video={item} />
+                                                <DeleteDailog video={item} />
                                             </div>
-                                        </Paper>
-                                        <div style={button}>
-                                            <EditDailog videos={props.video.videos} />
-                                            <Button>Delete</Button>
-                                        </div>
+                                        </Container>
                                     </div>
 
                                 ))}
